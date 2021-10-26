@@ -62,24 +62,40 @@ fetch("http://localhost:3000/api/products")
       couleur:couleurProduit, 
       nombre_article:quantiteProduit,
       prix: prixProduit
-    };
-
-    console.log(panierJson)
-  let objLinea = JSON.stringify(panierJson); //Cette opération transforme l’objet en une chaîne de caractères.
-  localStorage.setItem("obj",objLinea); //ne stocke que des valeurs sous forme de chaines de caractères.
-  objLinea = localStorage.getItem("obj");
-  panierJson = JSON.parse(objLinea);  //reforme l’objet à partir de la chaîne linéarisée.
-  console.log(panierJson);
-        
+    }
 
       let produitEnregistrerStorage = JSON.parse(localStorage.getItem("produit"));
       console.log(produitEnregistrerStorage);
 
       if(produitEnregistrerStorage){
+        console.log(produitEnregistrerStorage);
+        console.log("yep");
+          for(var i = 0; i < localStorage.length; i++){
+           // var storageLength = localStorage.length;
+             if (
+                  (panierJson.couleur == produitEnregistrerStorage[i].couleur) && (panierJson.id == produitEnregistrerStorage[i].id)
+              ){
+                console.log("rentrer");
+                produitEnregistrerStorage[i].nombre_article = parseInt(panierJson.nombre_article) + parseInt(produitEnregistrerStorage[i].nombre_article) ;
+                localStorage.setItem("produit", JSON.stringify(produitEnregistrerStorage));
+              
+              }else{
+                produitEnregistrerStorage.push (panierJson);
+              localStorage.setItem("produit", JSON.stringify(produitEnregistrerStorage));
+              console.log(produitEnregistrerStorage);
+              
+                
+              
+              } //if else into for
+              
+          } //for
+          
+            
        
       }else{
         produitEnregistrerStorage =[];
         produitEnregistrerStorage.push (panierJson);
+        localStorage.setItem("produit", JSON.stringify(produitEnregistrerStorage));
         console.log(produitEnregistrerStorage);
       } //verifie que la valeur existe deja ou pas dans le panier
       ;
