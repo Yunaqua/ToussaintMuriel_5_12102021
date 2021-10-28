@@ -38,7 +38,7 @@ fetch("http://localhost:3000/api/products")
     select.appendChild(option);
 
          
-    }//for
+    }//for couleur
   
   const quantite = document.querySelector('#quantity');  
 
@@ -49,74 +49,64 @@ fetch("http://localhost:3000/api/products")
     const ajouterPanier = document.querySelector("#addToCart");
     
     
-    ajouterPanier.addEventListener('click',(event) => {
+ajouterPanier.addEventListener('click',(event) => {
     event.preventDefault();
     
     const quantiteProduit = quantite.value ;
     const couleurProduit = listColor.value;
    
 // ------------------------------------- Variable panier produit -------------------------------------
-    let panierJson = {
-      id:id , 
-      nom:nomProduit,
-      couleur:couleurProduit, 
-      nombre_article:quantiteProduit,
-      prix: prixProduit
-    }
+  let panierJson = {
+    id:id , 
+    nom:nomProduit,
+    couleur:couleurProduit, 
+    nombre_article:quantiteProduit,
+    prix: prixProduit
+  }
 
-      let produitEnregistrerStorage = JSON.parse(localStorage.getItem("produit"));
-      console.log(produitEnregistrerStorage);
+  let produitEnregistrerStorage = JSON.parse(localStorage.getItem("produit"));
+  console.log(produitEnregistrerStorage);
 
-      if(produitEnregistrerStorage){
-        console.log(produitEnregistrerStorage);
-        console.log("yep");
-          for(var i = 0; i < localStorage.length; i++){
-           // var storageLength = localStorage.length;
-             if (
-                  (panierJson.couleur == produitEnregistrerStorage[i].couleur) && (panierJson.id == produitEnregistrerStorage[i].id)
-              ){
-                console.log("rentrer");
-                produitEnregistrerStorage[i].nombre_article = parseInt(panierJson.nombre_article) + parseInt(produitEnregistrerStorage[i].nombre_article) ;
-                localStorage.setItem("produit", JSON.stringify(produitEnregistrerStorage));
-              
-              }else{
-                produitEnregistrerStorage.push (panierJson);
-              localStorage.setItem("produit", JSON.stringify(produitEnregistrerStorage));
-              console.log(produitEnregistrerStorage);
-              
-                
-              
-              } //if else into for
-              
-          } //for
-          
-            
-       
-      }else{
-        produitEnregistrerStorage =[];
-        produitEnregistrerStorage.push (panierJson);
-        localStorage.setItem("produit", JSON.stringify(produitEnregistrerStorage));
-        console.log(produitEnregistrerStorage);
-      } //verifie que la valeur existe deja ou pas dans le panier
-      ;
-    
-    })
+  if(produitEnregistrerStorage){
+    //console.log(produitEnregistrerStorage);
    
+      for(var i = 0; i < produitEnregistrerStorage.length; i++){
+       // console.log();
+       console.log(localStorage.length);
+       console.log(produitEnregistrerStorage[i].couleur);
+       console.log(panierJson.couleur);
+         if (
+              (panierJson.couleur === produitEnregistrerStorage[i].couleur) && (panierJson.id === produitEnregistrerStorage[i].id)
+          ){
+            
+            produitEnregistrerStorage[i].nombre_article = parseInt(panierJson.nombre_article) + parseInt(produitEnregistrerStorage[i].nombre_article) ;
+            localStorage.setItem("produit", JSON.stringify(produitEnregistrerStorage));
+            //break;
+          
+          }else{
+            produitEnregistrerStorage.push (panierJson);
+          localStorage.setItem("produit", JSON.stringify(produitEnregistrerStorage));
+          //console.log(produitEnregistrerStorage);
 
-  
- 
-
-  
-
-   })//then jsonListProduct 
-
-    /*     if(!localStorage.getItem('')){
-        populateStorage();
-      }else{
-        setStyles();
-      } //verifie que la valeur existe deja ou pas dans le panier
-
-*/
+          } //if else into for
+          
+      } //for
       
+        
+   
+  }else{
+    produitEnregistrerStorage =[];
+    produitEnregistrerStorage.push (panierJson);
+    localStorage.setItem("produit", JSON.stringify(produitEnregistrerStorage));
+    console.log(produitEnregistrerStorage);
+  } //verifie que la valeur existe deja ou pas dans le panier
+  ;
+
+}) //event
+
+
+
+})//then jsonListProduct 
+ 
 
      
