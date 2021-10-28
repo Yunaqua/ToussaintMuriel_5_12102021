@@ -12,38 +12,76 @@ if(search_params.has('id')) {
 
 
 
-fetch("http://localhost:3000/api/products")
+fetch("http://localhost:3000/api/products/"+id)
   .then(data => data.json())
   .then(jsonListProduct => {
 
-  index = jsonListProduct.findIndex(x => x._id ===id);
-  console.log(index);
+  var productObject = new Product(jsonListProduct);
+  console.log(productObject);
         
-  document.querySelector('.item__img').innerHTML += ` <img src="${jsonListProduct[index].imageUrl}" alt="${jsonListProduct[index].altTxt}">`;
+ /* document.querySelector('.item__img').innerHTML += ` <img src="${productObject.imageUrl}" alt="${productObject.altTxt}">`;
         
-  document.querySelector('.item__content__titlePrice').innerHTML += ` <h1 id="title">${jsonListProduct[index].name}</h1>
-                                                                <p>Prix : <span id="price">${jsonListProduct[index].price}</span>€</p>`;
+  document.querySelector('.item__content__titlePrice').innerHTML += ` <h1 id="title">${productObject.name}</h1>
+                                                                <p>Prix : <span id="price">${productObject.price}</span>€</p>`;
   document.querySelector('.item__content__titlePrice').innerHTML += `<p class="item__content__description__title">Description :</p>
-                                                                                <p id="description">${jsonListProduct[index].description}</p>`;
+                                                                                <p id="description">${productObject.description}</p>`; */
 
+document.querySelector('.item').innerHTML += `<article>
+                                                  <div class="item__img">
+                                                    <img src="${productObject.imageUrl}" alt="${productObject.altTxt}">
+                                                  </div>
+                                                  <div class="item__content">
+
+                                                    <div class="item__content__titlePrice">
+                                                      <h1 id="title">${productObject.name}</h1>
+                                                      <p>Prix : <span id="price">${productObject.price}</span>€</p>
+                                                    </div>
+
+                                                    <div class="item__content__description">
+                                                      
+                                                    </div>
+
+                                                    <div class="item__content__settings">
+                                                      <div class="item__content__settings__color">
+                                                        <label for="color-select">Choisir une couleur :</label>
+                                                        <select name="color-select" id="colors">
+                                                          <option value="">--SVP, choisissez une couleur --</option>
+                                                          <!-- <option value="vert">vert</option>
+                                                            <option value="blanc">blanc</option> -->  
+                                                        </select>
+                                                      </div>
+
+                                                      <div class="item__content__settings__quantity">
+                                                        <label for="itemQuantity">Nombre d'article(s) (1-100) :</label>
+                                                        <input type="number" name="itemQuantity" min="1" max="100" value="0" id="quantity">
+                                                      </div>
+                                                    </div>
+
+                                                    <div class="item__content__addButton">
+                                                      <button id="addToCart">Ajouter au panier</button>
+                                                    </div>
+
+                                                  </div>
+                                                  </article> `
   const listColor = document.querySelector('#colors');
-  const listcolor = jsonListProduct[index].colors;
+  const listcolor = productObject.colors;
   console.log(listcolor);
 
-  for (let couleurs of listcolor){
+ for (let couleurs of listcolor){
     var option = document.createElement("option");
     option.text = couleurs;
     option.value = couleurs;
     var select = document.getElementById("colors");
-    select.appendChild(option);
+    //select.appendChild(option);
+    listcolor.innerHTML += select.appendChild(option);
 
          
-    }//for couleur
+    }//for couleur 
   
   const quantite = document.querySelector('#quantity');  
 
-  var nomProduit= jsonListProduct[index].name;
-  var prixProduit= jsonListProduct[index].price;
+  var nomProduit= productObject.name;
+  var prixProduit= productObject.price;
 
   // ------------------------------------- Fonction Addlistener -------------------------------------
     const ajouterPanier = document.querySelector("#addToCart");
@@ -68,7 +106,11 @@ ajouterPanier.addEventListener('click',(event) => {
   console.log(produitEnregistrerStorage);
 
   if(produitEnregistrerStorage){
-    //console.log(produitEnregistrerStorage);
+    if(panierJson.couleur == "" || panierJson.nombre_article=='0'){
+      alert("Veuillez selectionnez une couleur et un nombre d'article")
+    }else{
+
+    
    
       for(var i = 0; i < produitEnregistrerStorage.length; i++){
        // console.log();
@@ -79,26 +121,31 @@ ajouterPanier.addEventListener('click',(event) => {
               (panierJson.couleur === produitEnregistrerStorage[i].couleur) && (panierJson.id === produitEnregistrerStorage[i].id)
           ){
             
-            produitEnregistrerStorage[i].nombre_article = parseInt(panierJson.nombre_article) + parseInt(produitEnregistrerStorage[i].nombre_article) ;
+            produitEnregistrerStorage[i].nombre_article = parseInt(panierJson.nombre_article) + parseInt(produitEnregistrerStorage[i].nombre_article) ; //
             localStorage.setItem("produit", JSON.stringify(produitEnregistrerStorage));
             //break;
           
           }else{
             produitEnregistrerStorage.push (panierJson);
-          localStorage.setItem("produit", JSON.stringify(produitEnregistrerStorage));
+            localStorage.setItem("produit", JSON.stringify(produitEnregistrerStorage));
           //console.log(produitEnregistrerStorage);
 
           } //if else into for
           
       } //for
-      
+    }//if verification non null
         
    
   }else{
-    produitEnregistrerStorage =[];
-    produitEnregistrerStorage.push (panierJson);
-    localStorage.setItem("produit", JSON.stringify(produitEnregistrerStorage));
-    console.log(produitEnregistrerStorage);
+      if(panierJson.couleur =="" || panierJson.nombre_article=='0'){
+        alert("Veuillez selectionnez une couleur et un nombre d'article")
+      }else{ 
+        produitEnregistrerStorage =[];
+        produitEnregistrerStorage.push (panierJson);
+        localStorage.setItem("produit", JSON.stringify(produitEnregistrerStorage));
+        console.log(produitEnregistrerStorage);
+      }//if verification non null
+   
   } //verifie que la valeur existe deja ou pas dans le panier
   ;
 
