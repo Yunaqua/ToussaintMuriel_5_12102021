@@ -78,7 +78,7 @@ document.querySelector('.item').innerHTML += `<article>
          
     }//for couleur 
   
-  const quantite = document.querySelector('#quantity');  
+  const quantite = document.querySelector('#quantity'); 
 
   var nomProduit= productObject.name;
   var prixProduit= productObject.price;
@@ -90,9 +90,9 @@ document.querySelector('.item').innerHTML += `<article>
 ajouterPanier.addEventListener('click',(event) => {
     event.preventDefault();
     
-    const quantiteProduit = quantite.value ;
+    const quantiteProduit = parseInt(quantite.value) ;
     const couleurProduit = listColor.value;
-   
+   // console.log(quantiteProduit) ;
 // ------------------------------------- Variable panier produit -------------------------------------
   let panierJson = {
     id:id , 
@@ -101,52 +101,32 @@ ajouterPanier.addEventListener('click',(event) => {
     nombre_article:quantiteProduit,
     prix: prixProduit
   }
-
   let produitEnregistrerStorage = JSON.parse(localStorage.getItem("produit"));
-  console.log(produitEnregistrerStorage);
 
-  if(produitEnregistrerStorage){
-    if(panierJson.couleur == "" || panierJson.nombre_article=='0'){
-      alert("Veuillez selectionnez une couleur et un nombre d'article")
-    }else{
-
-    
-   
-      for(var i = 0; i < produitEnregistrerStorage.length; i++){
-       // console.log();
-       console.log(localStorage.length);
-       console.log(produitEnregistrerStorage[i].couleur);
-       console.log(panierJson.couleur);
-         if (
-              (panierJson.couleur === produitEnregistrerStorage[i].couleur) && (panierJson.id === produitEnregistrerStorage[i].id)
-          ){
-            
-            produitEnregistrerStorage[i].nombre_article = parseInt(panierJson.nombre_article) + parseInt(produitEnregistrerStorage[i].nombre_article) ; //
-            localStorage.setItem("produit", JSON.stringify(produitEnregistrerStorage));
-            //break;
-          
-          }else{
-            produitEnregistrerStorage.push (panierJson);
-            localStorage.setItem("produit", JSON.stringify(produitEnregistrerStorage));
-          //console.log(produitEnregistrerStorage);
-
-          } //if else into for
-          
-      } //for
-    }//if verification non null
-        
-   
+  if(panierJson.couleur =="" || panierJson.nombre_article=='0'){
+    alert("Veuillez selectionnez une couleur et un nombre d'article")
   }else{
-      if(panierJson.couleur =="" || panierJson.nombre_article=='0'){
-        alert("Veuillez selectionnez une couleur et un nombre d'article")
-      }else{ 
-        produitEnregistrerStorage =[];
-        produitEnregistrerStorage.push (panierJson);
-        localStorage.setItem("produit", JSON.stringify(produitEnregistrerStorage));
-        console.log(produitEnregistrerStorage);
-      }//if verification non null
-   
-  } //verifie que la valeur existe deja ou pas dans le panier
+    if(!produitEnregistrerStorage){
+      produitEnregistrerStorage=[]
+    }
+  
+    for (let i=0; i< produitEnregistrerStorage.length; i++){
+      if ((panierJson.couleur === produitEnregistrerStorage[i].couleur) && (panierJson.id === produitEnregistrerStorage[i].id)){
+        
+        produitEnregistrerStorage[i].nombre_article += parseInt(panierJson.nombre_article);
+        localStorage.setItem('produit',JSON.stringify(produitEnregistrerStorage))
+      }
+    } //for
+  
+    let check = produitEnregistrerStorage.some( e => e.id === panierJson.id && e.couleur === panierJson.couleur)
+    console.log(check)
+    console.log(produitEnregistrerStorage)
+  
+    if(!check){
+      produitEnregistrerStorage.push(panierJson)
+      localStorage.setItem('produit', JSON.stringify(produitEnregistrerStorage))
+    }
+  }// si l'entrée est valide
   ;
 
 }) //event
