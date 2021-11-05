@@ -82,6 +82,9 @@ document.querySelector('.item').innerHTML += `<article>
 
   var nomProduit= productObject.name;
   var prixProduit= productObject.price;
+  var imageProduit= productObject.imageUrl;
+  var altProduit= productObject.altTxt;
+  var descriptionProduit= productObject.description;
 
   // ------------------------------------- Fonction Addlistener -------------------------------------
     const ajouterPanier = document.querySelector("#addToCart");
@@ -97,13 +100,16 @@ ajouterPanier.addEventListener('click',(event) => {
   let panierJson = {
     id:id , 
     nom:nomProduit,
+    image:imageProduit,
+    alt:altProduit,
+    description:descriptionProduit,
     couleur:couleurProduit, 
     nombre_article:quantiteProduit,
     prix: prixProduit
   }
   let produitEnregistrerStorage = JSON.parse(localStorage.getItem("produit"));
 
-  if(panierJson.couleur =="" || panierJson.nombre_article=='0'){
+  if(panierJson.couleur =="" || panierJson.nombre_article=='0' || panierJson.nombre_article > 100){
     alert("Veuillez selectionnez une couleur et un nombre d'article")
   }else{
     if(!produitEnregistrerStorage){
