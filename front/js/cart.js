@@ -1,5 +1,6 @@
 
 let produitEnregistrerStorage = JSON.parse(localStorage.getItem("produit"));
+var idStorage=produitEnregistrerStorage.length;
 console.log(produitEnregistrerStorage);
 
 
@@ -22,7 +23,7 @@ for (let jsonPanier of produitEnregistrerStorage){
                                                                 <input type="number" class="itemQuantity" name="itemQuantity" min="1" max="100" value="${product.nombre_article}">
                                                                 </div>
                                                                 <div class="cart__item__content__settings__delete">
-                                                                <p class="deleteItem" onclick="myFunction(${product.alt})">Supprimer</p>
+                                                                <p class="deleteItem" onclick="myFunction(produitEnregistrerStorage)">Supprimer</p>
                                                                 </div>
                                                             </div>
                                                             </div>
@@ -38,13 +39,14 @@ for (let jsonPanier of produitEnregistrerStorage){
         console.log("yo");
     })//event supprimer
                                 */                      
-
-/*console.log(product);
-console.log("gna"); */
-                                                        
+    console.log(product);                                                     
   } //for
   function myFunction(e){
-    console.log("milie "+ e);
+
+    const isLargeNumber = (element) => e;
+
+    console.log(produitEnregistrerStorage.findIndex(isLargeNumber));
+    console.log(e);
     //produitEnregistrerStorage.removeItem(product);
 } 
 
