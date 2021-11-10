@@ -28,19 +28,12 @@ for (let jsonPanier of produitEnregistrerStorage){
                                                             </div>
                                                             </div>
                                                         </article>`;
-                                              
 
-  
-  /*const supprimerArticle = document.querySelector(".deleteItem");
-   supprimerArticle.addEventListener("click",(event) => {
-    //alert ("Hello World!");
-        console.log(product);
-    })//event supprimer */
                                                    
   } //for
  
   
-  function myElements(){
+  function myElementsSuppression(){
     let deleteItem = document.querySelectorAll(".deleteItem");
     for(let i=0; i < deleteItem.length; i++){
       deleteItem[i].addEventListener("click",(event) => {
@@ -48,7 +41,6 @@ for (let jsonPanier of produitEnregistrerStorage){
         const getColor = event.path[4].getAttribute("data-color");
 
         let check = produitEnregistrerStorage.some( e => e.id == getId && e.couleur == getColor)
-    console.log("yo");
     if(check){
       let suppresionStorage = produitEnregistrerStorage.findIndex( e => e.id == getId && e.couleur == getColor) //recupère l'index dans le storage
       console.log(suppresionStorage);
@@ -57,12 +49,38 @@ for (let jsonPanier of produitEnregistrerStorage){
       localStorage.setItem('produit', JSON.stringify(produitEnregistrerStorage));
     }
       });
-    }//for
-
-    
+    }//for   
 
 } //myElements
-myElements();
+myElementsSuppression();
+
+function changementQuantite(){
+
+  let quantite = document.querySelectorAll('.itemQuantity'); 
+  console.log("in");
+  for(let i=0; i < quantite.length ; i++){
+    quantite[i].addEventListener("change", (event) => {
+     let quantiteModifier = quantite[i].value;
+      const getId = event.path[4].getAttribute("data-id");
+      const getColor = event.path[4].getAttribute("data-color");
+
+        let check = produitEnregistrerStorage.some( e => e.id == getId && e.couleur == getColor);
+    if(check){
+      let modificationStorage = produitEnregistrerStorage.findIndex( e => e.id == getId && e.couleur == getColor); //recupère l'index dans le storage
+      
+      produitEnregistrerStorage[modificationStorage].nombre_article = parseInt(quantiteModifier);
+      //console.log(produitEnregistrerStorage[modificationStorage].nombre_article);
+      localStorage.setItem('produit', JSON.stringify(produitEnregistrerStorage));
+console.log(produitEnregistrerStorage);
+
+    }
+
+    }
+
+    )}//for
+
+}// changementQuantite
+changementQuantite()
 
 function calculPanier(){
   var articleTotal =0; 

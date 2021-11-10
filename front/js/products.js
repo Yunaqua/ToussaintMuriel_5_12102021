@@ -19,12 +19,6 @@ fetch("http://localhost:3000/api/products/"+id)
   var productObject = new Product(jsonListProduct);
   console.log(productObject);
         
- /* document.querySelector('.item__img').innerHTML += ` <img src="${productObject.imageUrl}" alt="${productObject.altTxt}">`;
-        
-  document.querySelector('.item__content__titlePrice').innerHTML += ` <h1 id="title">${productObject.name}</h1>
-                                                                <p>Prix : <span id="price">${productObject.price}</span>€</p>`;
-  document.querySelector('.item__content__titlePrice').innerHTML += `<p class="item__content__description__title">Description :</p>
-                                                                                <p id="description">${productObject.description}</p>`; */
 
 document.querySelector('.item').innerHTML += `<article>
                                                   <div class="item__img">
