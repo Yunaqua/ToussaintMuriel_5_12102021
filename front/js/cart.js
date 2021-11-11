@@ -69,13 +69,12 @@ function changementQuantite(){
       let modificationStorage = produitEnregistrerStorage.findIndex( e => e.id == getId && e.couleur == getColor); //recupère l'index dans le storage
       
       produitEnregistrerStorage[modificationStorage].nombre_article = parseInt(quantiteModifier);
-      //console.log(produitEnregistrerStorage[modificationStorage].nombre_article);
       localStorage.setItem('produit', JSON.stringify(produitEnregistrerStorage));
 console.log(produitEnregistrerStorage);
 
-    }
+    }// if
 
-    }
+    } //event
 
     )}//for
 
@@ -101,4 +100,23 @@ calculPanier();
     
 })//fin event
 
-  
+
+function validateEmail(email) {
+  const re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+  return re.test(email);
+}
+function validate() {
+  const result = document.getElementById("emailErrorMsg");
+  var email = document.getElementById('email').value;
+
+  if (validateEmail(email)) {
+    document.getElementById("emailErrorMsg").innerHTML = email + " is a valid email address ";
+    document.getElementById("emailErrorMsg").style.color = "green";
+  } else {
+    document.getElementById("emailErrorMsg").innerHTML = email + " is not a valid email address";
+    document.getElementById("emailErrorMsg").style.color = "red";
+    return false;
+  }
+  return false;
+}
+
