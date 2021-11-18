@@ -37,22 +37,32 @@ for (let jsonPanier of produitEnregistrerStorage){
     let deleteItem = document.querySelectorAll(".deleteItem");
     for(let i=0; i < deleteItem.length; i++){
       deleteItem[i].addEventListener("click",(event) => {
-        const getId = event.path[4].getAttribute("data-id");
-        const getColor = event.path[4].getAttribute("data-color");
+          console.log(event);
+          const getId = event.path[4].getAttribute("data-id");
+          const getColor = event.path[4].getAttribute("data-color");
 
-        let check = produitEnregistrerStorage.some( e => e.id == getId && e.couleur == getColor)
-    if(check){
-      let suppresionStorage = produitEnregistrerStorage.findIndex( e => e.id == getId && e.couleur == getColor) //recupère l'index dans le storage
-      console.log(suppresionStorage);
-      produitEnregistrerStorage.splice(suppresionStorage,1);
-      console.log(produitEnregistrerStorage);
-      localStorage.setItem('produit', JSON.stringify(produitEnregistrerStorage));
-    }
-      });
+          let check = produitEnregistrerStorage.some( e => e.id == getId && e.couleur == getColor)
+          if(check){
+            let suppresionStorage = produitEnregistrerStorage.findIndex( e => e.id == getId && e.couleur == getColor) //recupère l'index dans le storage
+            console.log(suppresionStorage);
+            produitEnregistrerStorage.splice(suppresionStorage,1);
+            console.log(produitEnregistrerStorage);
+            localStorage.setItem('produit', JSON.stringify(produitEnregistrerStorage));
+          }
+            const elementSupprimer = event.path[4];
+            elementSupprimer.remove();
+            console.log(elementSupprimer);
+
+            calculPanier();
+
+      });//event
     }//for   
 
-} //myElements
+} //myElementsSuppression
 myElementsSuppression();
+
+
+
 
 function changementQuantite(){
 
@@ -70,7 +80,7 @@ function changementQuantite(){
       
       produitEnregistrerStorage[modificationStorage].nombre_article = parseInt(quantiteModifier);
       localStorage.setItem('produit', JSON.stringify(produitEnregistrerStorage));
-console.log(produitEnregistrerStorage);
+      console.log(produitEnregistrerStorage);
 
     }// if
 
@@ -100,23 +110,95 @@ calculPanier();
     
 })//fin event
 
+/* -----------------------   Formulaire-------------------------------*/
 
-function validateEmail(email) {
-  const re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-  return re.test(email);
+
+
+const reName = /^(?=.{1,50}$)[a-z]+(?:['_.\s][a-z]+)*$/i;
+const reMail = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+const reAdress = /^[0-9]+(\,)?\s[a-zA-Z]+\s[a-zA-Z]+(\s)?[a-zA-Z]?/g;
+
+  
+
+function validate(formInformation,regex) {
+  
+  return regex.test(formInformation);
+ }
+  
+/*function test(){
+
+  
+  if( validate(prenomFormulaire,reName) && validate(nomFormulaire,reName) && validate(adresseFormulaire,reAdress) && validate(villeFormulaire,reName) && validate(emailFormulaire,reMail)){
+    console.log("nice");
+  }
+ 
+  else if(validate(prenomFormulaire,reName)){
+    console.log("yo");
+    console.log(validate(prenomFormulaire,reName));
+  }else{
+    console.log("gna");
+  }
+  return validate(prenomFormulaire,reName);
 }
-function validate() {
-  const result = document.getElementById("emailErrorMsg");
-  var email = document.getElementById('email').value;
+test() */
 
-  if (validateEmail(email)) {
+function validateEmail() {
+  var email = document.getElementById('email').value;
+  //const result = document.getElementById("emailErrorMsg");
+
+ if (validate(email,reMail)) {
     document.getElementById("emailErrorMsg").innerHTML = email + " is a valid email address ";
-    document.getElementById("emailErrorMsg").style.color = "green";
+    document.getElementById("emailErrorMsg").style.color = "lightgreen";
+
   } else {
     document.getElementById("emailErrorMsg").innerHTML = email + " is not a valid email address";
     document.getElementById("emailErrorMsg").style.color = "red";
-    return false;
-  }
-  return false;
-}
 
+  }//else
+  
+} //fonction validateEmail()
+
+let listeContactCommande=[];
+
+const boutonSubmit = document.querySelector("#order");
+boutonSubmit.addEventListener('click',(event) => {
+  event.preventDefault();
+  console.log("bonjour");
+
+  var prenomFormulaire = document.getElementById("firstName").value;
+  var nomFormulaire = document.getElementById("lastName").value;
+  var adresseFormulaire = document.getElementById("address").value;
+  var villeFormulaire = document.getElementById("city").value;
+  var emailFormulaire = document.getElementById("email").value;
+
+  var random = Math.floor(Math.random() * 1000000) + 1;
+  let check = listeContactCommande.some( e => e.id == random )
+  
+  console.log(validate(adresseFormulaire,reAdress));
+
+
+  if(validate(prenomFormulaire,reName) && validate(nomFormulaire,reName) && validate(adresseFormulaire,reAdress) && validate(villeFormulaire,reName) && validate(emailFormulaire,reMail)){
+    console.log("nice")
+    do{
+      console.log("hr");
+      random = Math.floor(Math.random() * 1000000) + 1;
+    }while(check);
+     
+    var numero_commande = random;
+    let formulaireContact = {
+      id : numero_commande,
+      prenom: prenomFormulaire , 
+      nom:nomFormulaire,
+      adresse:adresseFormulaire,
+      ville:villeFormulaire,
+      email:emailFormulaire
+      } 
+    listeContactCommande.push(formulaireContact);
+    console.log(listeContactCommande);
+      alert("commande effectué");
+  }//if
+
+ 
+  
+
+})//fin event
