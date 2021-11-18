@@ -173,8 +173,6 @@ boutonSubmit.addEventListener('click',(event) => {
 
   var random = Math.floor(Math.random() * 1000000) + 1;
   let check = listeContactCommande.some( e => e.id == random )
-  
-  console.log(validate(adresseFormulaire,reAdress));
 
 
   if(validate(prenomFormulaire,reName) && validate(nomFormulaire,reName) && validate(adresseFormulaire,reAdress) && validate(villeFormulaire,reName) && validate(emailFormulaire,reMail)){
