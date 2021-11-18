@@ -196,6 +196,7 @@ boutonSubmit.addEventListener('click',(event) => {
     listeContactCommande.push(formulaireContact);
     console.log(listeContactCommande);
       alert("commande effectué");
+      window.location.href='confirmation.html'+ "?id=" + numero_commande; //http://127.0.0.1:5500/front/html/confirmation.html?id=107fb5b7560
   }//if
 
  
