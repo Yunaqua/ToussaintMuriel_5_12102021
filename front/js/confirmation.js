@@ -10,3 +10,5 @@ if(search_params.has('id')) {
 
 
 document.querySelector('#orderId').innerHTML += `${id}`
+
+localStorage.clear();

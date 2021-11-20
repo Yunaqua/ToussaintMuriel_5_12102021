@@ -60,16 +60,15 @@ document.querySelector('.item').innerHTML += `<article>
   const listColor = document.querySelector('#colors');
   const listcolor = productObject.colors;
   console.log(listcolor);
+/* -----------------------   Option couleurs-------------------------------*/
 
  for (let couleurs of listcolor){
     var option = document.createElement("option");
     option.text = couleurs;
     option.value = couleurs;
     var select = document.getElementById("colors");
-    //select.appendChild(option);
     listcolor.innerHTML += select.appendChild(option);
-
-         
+       
     }//for couleur 
   
   const quantite = document.querySelector('#quantity'); 
@@ -80,7 +79,7 @@ document.querySelector('.item').innerHTML += `<article>
   var altProduit= productObject.altTxt;
   var descriptionProduit= productObject.description;
 
-  // ------------------------------------- Fonction Addlistener -------------------------------------
+  // ------------------------------------- Ajout dans le panier-------------------------------------
     const ajouterPanier = document.querySelector("#addToCart");
     
     
@@ -104,7 +103,7 @@ ajouterPanier.addEventListener('click',(event) => {
   let produitEnregistrerStorage = JSON.parse(localStorage.getItem("produit"));
 
   if(panierJson.couleur =="" || panierJson.nombre_article=='0' || panierJson.nombre_article > 100){
-    alert("Veuillez selectionnez une couleur et un nombre d'article")
+    alert("Veuillez selectionnez une couleur et un nombre d'article valide")
   }else{
     if(!produitEnregistrerStorage){
       produitEnregistrerStorage=[]

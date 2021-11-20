@@ -32,7 +32,8 @@ for (let jsonPanier of produitEnregistrerStorage){
                                                    
   } //for
  
-  
+/* -----------------------   Suppression -------------------------------*/
+
   function myElementsSuppression(){
     let deleteItem = document.querySelectorAll(".deleteItem");
     for(let i=0; i < deleteItem.length; i++){
@@ -62,12 +63,11 @@ for (let jsonPanier of produitEnregistrerStorage){
 myElementsSuppression();
 
 
-
+/* -----------------------   Panier -------------------------------*/
 
 function changementQuantite(){
 
   let quantite = document.querySelectorAll('.itemQuantity'); 
-  console.log("in");
   for(let i=0; i < quantite.length ; i++){
     quantite[i].addEventListener("change", (event) => {
      let quantiteModifier = quantite[i].value;
@@ -113,7 +113,7 @@ calculPanier();
 /* -----------------------   Formulaire-------------------------------*/
 
 
-
+//------------- Regex------------- 
 const reName = /^(?=.{1,50}$)[a-z]+(?:['_.\s][a-z]+)*$/i;
 const reMail = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 const reAdress = /^[0-9]+(\,)?\s[a-zA-Z]+\s[a-zA-Z]+(\s)?[a-zA-Z]?/g;
@@ -121,30 +121,12 @@ const reAdress = /^[0-9]+(\,)?\s[a-zA-Z]+\s[a-zA-Z]+(\s)?[a-zA-Z]?/g;
   
 
 function validate(formInformation,regex) {
-  
+  //console.log(formInformation);
   return regex.test(formInformation);
  }
-  
-/*function test(){
-
-  
-  if( validate(prenomFormulaire,reName) && validate(nomFormulaire,reName) && validate(adresseFormulaire,reAdress) && validate(villeFormulaire,reName) && validate(emailFormulaire,reMail)){
-    console.log("nice");
-  }
- 
-  else if(validate(prenomFormulaire,reName)){
-    console.log("yo");
-    console.log(validate(prenomFormulaire,reName));
-  }else{
-    console.log("gna");
-  }
-  return validate(prenomFormulaire,reName);
-}
-test() */
 
 function validateEmail() {
   var email = document.getElementById('email').value;
-  //const result = document.getElementById("emailErrorMsg");
 
  if (validate(email,reMail)) {
     document.getElementById("emailErrorMsg").innerHTML = email + " is a valid email address ";
@@ -160,27 +142,28 @@ function validateEmail() {
 
 let listeContactCommande=[];
 
+
 const boutonSubmit = document.querySelector("#order");
 boutonSubmit.addEventListener('click',(event) => {
   event.preventDefault();
-  console.log("bonjour");
 
+  //------------- Valeur du formulaire------------- 
   var prenomFormulaire = document.getElementById("firstName").value;
   var nomFormulaire = document.getElementById("lastName").value;
   var adresseFormulaire = document.getElementById("address").value;
   var villeFormulaire = document.getElementById("city").value;
   var emailFormulaire = document.getElementById("email").value;
 
+  //------------- Numero aleatoire pour la commande------------- 
   var random = Math.floor(Math.random() * 1000000) + 1;
-  let check = listeContactCommande.some( e => e.id == random )
-
+  let check = listeContactCommande.some( e => e.id == random );
 
   if(validate(prenomFormulaire,reName) && validate(nomFormulaire,reName) && validate(adresseFormulaire,reAdress) && validate(villeFormulaire,reName) && validate(emailFormulaire,reMail)){
+    
     console.log("nice")
     do{
-      console.log("hr");
       random = Math.floor(Math.random() * 1000000) + 1;
-    }while(check);
+    }while(check); 
      
     var numero_commande = random;
     let formulaireContact = {
@@ -191,13 +174,18 @@ boutonSubmit.addEventListener('click',(event) => {
       ville:villeFormulaire,
       email:emailFormulaire
       } 
+
     listeContactCommande.push(formulaireContact);
     console.log(listeContactCommande);
-      alert("commande effectué");
-      window.location.href='confirmation.html'+ "?id=" + numero_commande; //http://127.0.0.1:5500/front/html/confirmation.html?id=107fb5b7560
-  }//if
+    window.location.href='confirmation.html'+ "?id=" + numero_commande; //http://127.0.0.1:5500/front/html/confirmation.html?id=107fb5b7560
+    document.querySelector(".cart__order__form").reset();
 
+  }else if(!prenomFormulaire ||!nomFormulaire ||!adresseFormulaire ||!villeFormulaire ||!emailFormulaire){
+    alert("Un ou plusieurs élement(s) du formulaire sont vide.");
+  }else{
+    console.log("formulaire vide");
+    alert("Veuillez remplir correctement le formulaire");
+   
+  }//else
  
-  
-
 })//fin event
