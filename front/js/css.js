@@ -1,18 +1,32 @@
-
-
 document.querySelector('#menujs').innerHTML +=`
                 <a href="./index.html"><li>Accueil</li></a>
-              <a href="./cart.html"><li id="target">Panier</li>   
-            <asp:Label ID="totalPanier" runat="server" CssClass="badge badge-warning"  ForeColor="White"/></a>
+              <a href="./cart.html"><li id="target">Panier</li><span id="totalPanier"></span></a>
+                                                    <style type="text/css">
+                                                    #totalPanier {
+                                                      background: #3498db;
+                            padding: 0 5px;
+                            vertical-align: top;
+                            font-weight:bold;
+                            border-style:solid;
+                            font-size:50%;
+                            padding:.6em;
+                            border-radius:50%;
+                            line-height:.75em;
+                            color: white;
+                            position:relative;
+                            top:-6%;
+                                                        }
+                                                    </style>
                                                     `;
+
 /* -----------------------   Storage non null -------------------------------*/
 if(localStorage !=null){
     let produitEnregistrerStorage = JSON.parse(localStorage.getItem("produit"));
     var idStorage = produitEnregistrerStorage.length;
     console.log(produitEnregistrerStorage);
     
-                                                    
-    var style = document.createElement('style');
+ /* -----------------------   Css -------------------------------*/                                                   
+ /*   var style = document.createElement('style');
     style.innerHTML = `
                         #totalPanier {
                             background: #3498db;
@@ -33,7 +47,7 @@ if(localStorage !=null){
                             top:-6%;
                         }
                         `;
-    document.head.appendChild(style);
+    document.head.appendChild(style); */
 
 /* -----------------------   Calcul du panier -------------------------------*/
     function calculPanier(){

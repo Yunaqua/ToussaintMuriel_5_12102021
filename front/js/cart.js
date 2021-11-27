@@ -14,7 +14,7 @@ for (let jsonPanier of produitEnregistrerStorage){
                                                             </div>
                                                             <div class="cart__item__content">
                                                             <div class="cart__item__content__titlePrice">
-                                                                <h2>${product.nom}</h2>
+                                                                <h2>${product.nom}</h2><p>${product.couleur}</p>
                                                                 <p>${(product.prix * product.nombre_article)}€</p>
                                                             </div>
                                                             <div class="cart__item__content__settings">
